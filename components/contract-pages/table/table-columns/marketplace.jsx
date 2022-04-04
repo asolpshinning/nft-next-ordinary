@@ -1,0 +1,50 @@
+import { MarketplaceActionsCell } from "./actions/MarketplaceActionsCell";
+import { MediaCell } from "./cells/media-cell";
+import { Text } from "@chakra-ui/react";
+import { AuctionListing, DirectListing, ListingType } from "@thirdweb-dev/sdk";
+import { AddressCopyButton } from "components/web3/AddressCopyButton";
+import React from "react";
+import { Cell, Column } from "react-table";
+
+export function generateMarketplaceTableColumns() {
+  return [
+    {
+      Header: "ID",
+      accessor: (row) => row.id,
+    },
+    {
+      Header: "Media",
+      accessor: (row) => row.asset,
+      Cell: MediaCell,
+    },
+    { Header: "Name", accessor: (row) => row.asset?.name },
+    {
+      Header: "Seller",
+      accessor: (row) => row.sellerAddress,
+      Cell: ({ cell }) => (
+        <AddressCopyButton variant="outline" address={cell.value} />
+      ),
+    },
+    {
+      Header: "Price",
+      accessor: (row) => row.buyoutCurrencyValuePerToken,
+      Cell: ({ cell }) => {
+        return (
+          <Text size="label.md" whiteSpace="nowrap">
+            {cell.value.displayValue} {cell.value.symbol}
+          </Text>
+        );
+      },
+    },
+    {
+      Header: "Type",
+      accessor: (row) =>
+        row.type === ListingType.Direct ? "Direct Listing" : "Auction",
+    },
+    {
+      Header: "Actions",
+      id: "actions",
+      Cell: MarketplaceActionsCell,
+    },
+  ];
+}
