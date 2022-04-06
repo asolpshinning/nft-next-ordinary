@@ -1,4 +1,4 @@
-# thirdweb.com
+# buildreach
 
 This repo contains the full source for all of thirdweb.com and the thirdweb dashboard.
 
